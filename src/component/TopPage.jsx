@@ -20,7 +20,7 @@ export const TopPage = () => {
     flex-direction: column;
     align-items: center;
   `
-
+  // 　この部分をカスタムHook化
   const frontImage = async () => {
     try {
       // ポケモンAPIからピカチュウの情報をaxiosで取得
