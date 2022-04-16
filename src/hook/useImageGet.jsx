@@ -5,20 +5,22 @@ import axios from "axios"
 import { useState } from "react"
 import { useCallback } from "react"
 
-export const useImageGet = () => {
-  const [useImage, setUserImage] = useState([])
+const url = "https://pokeapi.co/api/v2/pokemon/25"
 
+export const useImageGet = () => {
+  // useImageのState初期値は更新する値のオブジェクトの方に合わせる（空のオブジェクトを格納する）
+  // 取得する多段オブジェクトに合わせる。
+  const [useImage, setUserImage] = useState({ data: { sprites: {} } })
   const imageFetch = useCallback(async () => {
     try {
-      // ポケモンAPIからピカチュウの情報をaxiosで取得
-      const response = await axios.get("https://pokeapi.co/api/v2/pokemon/25")
+      // // ポケモンAPIからピカチュウの情報をaxiosで取得
+      const response = await axios.get(url)
       // ポケモンAPIのピカチュウ情報を格納
       setUserImage(response)
     } catch {
       console.log("画像が取得できませんでした")
     }
-    imageFetch()
   }, [])
 
-  return { useImage } // ポケモンAPIの情報を返す
+  return { useImage, imageFetch } // ポケモンAPI取得の関数を返す
 }

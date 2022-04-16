@@ -2,16 +2,16 @@
 /** @jsxImportSource @emotion/react */
 
 import { useState } from "react"
+import { useEffect } from "react"
 import toast, { Toaster } from "react-hot-toast"
 import { css } from "@emotion/react"
-// react-day-picker：v8.0.１・・・・・・・
-import { DayPicker } from "react-day-picker"
-import "react-day-picker/dist/style.css"
-// ・・・・・・・・・・・・・・・・・・・・・
+import { DayPicker } from "react-day-picker" // react-day-picker：v8.0.１
+import "react-day-picker/dist/style.css" // react-day-picker：v8.0.１
 import { LinkText } from "./LinkText"
 import { Button } from "./Button"
-import axios from "axios"
 import { Image } from "./Image"
+
+import { useImageGet } from "../hook/useImageGet"
 
 export const TodoRegister = () => {
   const registerStyle = css`
@@ -41,20 +41,12 @@ export const TodoRegister = () => {
   // 初期値incompTodosにオブジェクト型の空配列をセット、状態をsetIncompleteTodosに格納する
   const [incompleteTodos, setIncompleteTodos] = useState([])
 
-  // ピカチュウ画像状態をsetBackImageに格納する
-  const [backimage, setBackImage] = useState([])
+  const { useImage, imageFetch } = useImageGet()
 
-  const backImage = async () => {
-    try {
-      // ポケモンAPIからピカチュウの情報をaxiosで取得
-      const response = await axios.get("https://pokeapi.co/api/v2/pokemon/25")
-      // ポケモンAPIのピカチュウの画像(前）をStateで保存
-      setBackImage(response.data.sprites.back_female)
-    } catch {
-      console.log("画像が取得できませんでした")
-    }
-  }
-  backImage()
+  // Todoページマウント時のみ関数imageFetch()を実施
+  useEffect(() => {
+    imageFetch()
+  }, [])
 
   // todoタスクのテキストボックスで入力した値を保存する
   const changeValue = (e) => setNewTodo(e.target.value)
@@ -97,7 +89,7 @@ export const TodoRegister = () => {
     <div css={registerStyle}>
       <h2>Todo登録</h2>
       {/* ピカチュウの画像をImageコンポーネントで呼び出す */}
-      <Image url={backimage} />
+      <Image url={useImage.data.sprites.back_female} />
       <div css={matrixStyle}>
         <div css={registerStyle}>
           <p>１．Todo開始日</p>

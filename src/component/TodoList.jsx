@@ -52,7 +52,7 @@ export const TodoList = () => {
     }
   `
 
-  const { state } = useLocation()
+  const { state } = useLocation() // 画面変移（Linkコンポーネント）のPropを受け取る為のHook。
   const [todoLists, setTodoLists] = useState([])
   const [jsontext, setjsonText] = useState([])
 
