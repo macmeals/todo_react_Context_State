@@ -10,9 +10,14 @@ import { createRoot } from "react-dom/client"
 const rootElement = document.getElementById("root")
 const root = createRoot(rootElement)
 
+// グローバルStateをImport
+import { TodoListProvider } from "./component/providers/TodoListProvider"
+
 root.render(
   <StrictMode>
-    <App />
+    <TodoListProvider>
+      <App />
+    </TodoListProvider>
   </StrictMode>
 )
 

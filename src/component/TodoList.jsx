@@ -1,15 +1,18 @@
 // "@emotion/react"には以下が必須
 /** @jsxImportSource @emotion/react */
 
-import { useLocation } from "react-router-dom"
+// import { useLocation } from "react-router-dom"
 import { useState } from "react"
-import { useEffect } from "react"
+// import { useEffect } from "react"
 import { css } from "@emotion/react"
 import styled from "@emotion/styled"
 import { LinkText } from "./LinkText"
 import { Button } from "./Button"
 import { useCallback } from "react"
 import axios from "axios"
+// グローバルStateを取得
+import { useContext } from "react"
+import { TodoListContext } from "./providers/TodoListProvider"
 
 export const TodoList = () => {
   const todoStyle = css`
@@ -52,15 +55,21 @@ export const TodoList = () => {
     }
   `
 
-  const { state } = useLocation() // 画面変移（Linkコンポーネント）のPropを受け取る為のHook。
-  const [todoLists, setTodoLists] = useState([])
+  // const { state } = useLocation() // 画面変移（Linkコンポーネント）のPropを受け取る為のHook。
+
+  // グローバルStateの変数 incompleteTodosをuseContext利用で取り出す。
+  const { incompleteTodos } = useContext(TodoListContext)
+  //  incompleteTodosをtodoListsへセット（stateの初期値にセット）
+  const [todoLists, setTodoLists] = useState([incompleteTodos])
+  console.log(todoLists)
+
   const [jsontext, setjsonText] = useState([])
 
   // 画面変移時に一度だけ、TodoListのStateを更新する。
   // その為UseEffectの第二変数に[]を記載
-  useEffect(() => {
-    setTodoLists(state.state)
-  }, [])
+  // useEffect(() => {
+  //   setTodoLists(state.state)
+  // }, [])
 
   // todoリストを削除する関数onDeleteTodoを定義
   const onDeleteTodo = useCallback(

@@ -11,7 +11,13 @@ import { LinkText } from "./LinkText"
 import { Button } from "./Button"
 import { Image } from "./Image"
 
+//カスタムHookを読み込み
 import { useImageGet } from "../hook/useImageGet"
+
+//グローバルStateを使う為のuseContextを読み込み
+//TodoListContextを読み込み
+import { useContext } from "react"
+import { TodoListContext } from "./providers/TodoListProvider"
 
 export const TodoRegister = () => {
   const registerStyle = css`
@@ -39,8 +45,13 @@ export const TodoRegister = () => {
   const [endDate, setEndDate] = useState(undefined)
 
   // 初期値incompTodosにオブジェクト型の空配列をセット、状態をsetIncompleteTodosに格納する
-  const [incompleteTodos, setIncompleteTodos] = useState([])
+  // const [incompleteTodos, setIncompleteTodos] = useState([])
 
+  // グローバルStateの変数 incompleteTodos,関数setIncompleteTodosをuseContext利用で取り出す。
+  const { incompleteTodos, setIncompleteTodos } = useContext(TodoListContext)
+  console.log(incompleteTodos)
+
+  // カスタムHookから変数useImage,関数imageFetchを取得
   const { useImage, imageFetch } = useImageGet()
 
   // Todoページマウント時のみ関数imageFetch()を実施
@@ -67,7 +78,6 @@ export const TodoRegister = () => {
     setIncompleteTodos(newTodos) // setIncompleteTodosにnewTodosの状態を登録
     setNewTodo("") // setNewTodoに空の状態を登録
     toast.success("Todoを登録しました.")
-    console.log(incompleteTodos)
     setStartDate(undefined) // 開始日をリセット
     setEndDate(undefined) // 終了日をリセット
   }
@@ -121,9 +131,10 @@ export const TodoRegister = () => {
       <Button onClickEvent={() => onAddTodo()}>登録</Button>
       <Toaster />
       {/* LinkTextコンポーネントを呼び出す。destinationにリンク先、linkNameにリンク名、格納した配列をlinkStateにPropで渡す */}
-      <LinkText destination={"/todolist"} linkState={incompleteTodos}>
+      {/* <LinkText destination={"/todolist"} linkState={incompleteTodos}>
         Todo一覧へ
-      </LinkText>
+      </LinkText> */}
+      <LinkText destination={"/todolist"}>Todo一覧へ</LinkText>
     </div>
   )
 }
