@@ -57,11 +57,11 @@ export const TodoList = () => {
 
   // const { state } = useLocation() // 画面変移（Linkコンポーネント）のPropを受け取る為のHook。
 
-  // グローバルStateの変数 incompleteTodosをuseContext利用で取り出す。
-  const { incompleteTodos } = useContext(TodoListContext)
+  // グローバルStateの変数 incompleteTodos、setIncompleteTodosをuseContext利用で取り出す。
+  const { incompleteTodos, setIncompleteTodos } = useContext(TodoListContext)
   //  incompleteTodosをtodoListsへセット（stateの初期値にセット）
-  const [todoLists, setTodoLists] = useState([incompleteTodos])
-  console.log(todoLists)
+  // const [todoLists, setTodoLists] = useState([incompleteTodos])
+  // console.log(todoLists)
 
   const [jsontext, setjsonText] = useState([])
 
@@ -74,22 +74,36 @@ export const TodoList = () => {
   // todoリストを削除する関数onDeleteTodoを定義
   const onDeleteTodo = useCallback(
     (index) => {
-      const deleteTodos = [...todoLists] // 削除する対象のデータ配列を関数deleteTodoに格納
+      // const deleteTodos = [...todoLists] // 削除する対象のデータ配列を関数deleteTodoに格納
+      const deleteTodos = [...incompleteTodos] // 削除する対象のデータ配列を関数deleteTodoに格納
       deleteTodos.splice(index, 1) // index番号から１番目の要素を削除
-      setTodoLists(deleteTodos)
+      // setTodoLists(deleteTodos)
       // setTodoListsでtodoListsにstate保存
+
+      // グローバルStateにdeleteTodosを格納
+      setIncompleteTodos(deleteTodos)
     },
-    [todoLists]
+    // [todoLists]
+    // 第二引数にグローバルStateにdeleteTodosを格納
+    [incompleteTodos]
   )
 
   // todoリストを完了（completeFlagをTrueにする）関数onCompleteTodoを定義
   const onCompleteTodo = useCallback(
     (index) => {
-      const CompleteTodos = [...todoLists] // 完了する対象のデータ配列を関数CompTodosTodoに格納
+      // const CompleteTodos = [...todoLists] // 完了する対象のデータ配列を関数CompTodosTodoに格納
+
+      // グローバルStateを関数CompTodosTodoに格納
+      const CompleteTodos = [...incompleteTodos]
       CompleteTodos[index].completeFlag = true //対象のデータ配列のCompleteFlagをTrueにする
-      setTodoLists(CompleteTodos) // setTodoListsでtodoListsにstate保存
+      // setTodoLists(CompleteTodos) // setTodoListsでtodoListsにstate保存
+
+      // グローバルStateにCompleteTodosを格納
+      setIncompleteTodos(CompleteTodos)
     },
-    [todoLists]
+    // [todoLists]
+    // 第二引数にグローバルStateにdeleteTodosを格納
+    [incompleteTodos]
   )
 
   const textApi = async () => {
@@ -119,7 +133,8 @@ export const TodoList = () => {
         </TodoTitles>
       </div>
       <ul css={todoListStyle}>
-        {todoLists.map((todos, index) => {
+        {/* {todoLists.map((todos, index) => { */}
+        {incompleteTodos.map((todos, index) => {
           return (
             <StyledList key={todos.id} todoflag={todos.completeFlag}>
               <p>{todos.from}</p>
