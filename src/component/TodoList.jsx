@@ -2,14 +2,19 @@
 /** @jsxImportSource @emotion/react */
 
 // import { useLocation } from "react-router-dom"
-import { useState } from "react"
+// import { useState } from "react"
 // import { useEffect } from "react"
 import { css } from "@emotion/react"
 import styled from "@emotion/styled"
 import { LinkText } from "./LinkText"
 import { Button } from "./Button"
 import { useCallback } from "react"
-import axios from "axios"
+// import axios from "axios"
+import { useEffect } from "react"
+
+// カスタムHook（JSONPlaceHolder用の）
+import { useTextGet } from "../hook/useTextGet"
+
 // グローバルStateを取得
 import { useContext } from "react"
 import { TodoListContext } from "./providers/TodoListProvider"
@@ -63,7 +68,7 @@ export const TodoList = () => {
   // const [todoLists, setTodoLists] = useState([incompleteTodos])
   // console.log(todoLists)
 
-  const [jsontext, setjsonText] = useState([])
+  // const [jsontext, setjsonText] = useState([])
 
   // 画面変移時に一度だけ、TodoListのStateを更新する。
   // その為UseEffectの第二変数に[]を記載
@@ -106,25 +111,38 @@ export const TodoList = () => {
     [incompleteTodos]
   )
 
-  const textApi = async () => {
-    try {
-      // jsonPlaceholderからユーザー情報をaxiosで取得
-      const response = await axios.get(
-        "https://jsonplaceholder.typicode.com/todos"
-      )
-      // jsonPlaceholderからユーザー情報をStateで保存
-      setjsonText(response.data[1].title)
-    } catch {
-      console.log("テキストが取得できませんでした")
-    }
-  }
-  textApi()
+  // const textApi = async () => {
+  //   try {
+  //     // jsonPlaceholderからユーザー情報をaxiosで取得
+  //     const response = await axios.get(
+  //       "https://jsonplaceholder.typicode.com/todos"
+  //     )
+  //     // jsonPlaceholderからユーザー情報をStateで保存
+  //     setjsonText(response.data[1].title)
+  //   } catch {
+  //     console.log("テキストが取得できませんでした")
+  //   }
+  // }
+  // textApi()
 
+  // カスタムHookから変数useImage,関数imageFetchを取得
+  const { useJson, jsonFetch } = useTextGet()
+
+  // TodoList.jsx時のみ関数jsonFetch()を実施
+  useEffect(() => {
+    jsonFetch()
+  }, [])
+  // useJsonがNullの時ブランクで、値が入った段階で、useJson.data[1].titleを返す
+  console.log(useJson?.data[1].title ?? "")
+
+  // console.log(useJson.data[1].title)
   return (
     <div css={todoStyle}>
       <h2>Todo一覧</h2>
       {/* sonPlaceholderの情報を表示 */}
-      <p>{jsontext}</p>
+      {/* <p>{jsontext}</p> */}
+      <p>{useJson?.data[1].title ?? ""}</p>
+      {/* <p>{useJson.data[1].title}</p> */}
       <div css={todoTitleStyle}>
         <TodoTitles>
           <p>Todo開始日</p>
