@@ -64,9 +64,6 @@ export const TodoList = () => {
 
   // グローバルStateの変数 incompleteTodos、setIncompleteTodosをuseContext利用で取り出す。
   const { incompleteTodos, setIncompleteTodos } = useContext(TodoListContext)
-  //  incompleteTodosをtodoListsへセット（stateの初期値にセット）
-  // const [todoLists, setTodoLists] = useState([incompleteTodos])
-  // console.log(todoLists)
 
   // const [jsontext, setjsonText] = useState([])
 
