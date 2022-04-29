@@ -11,14 +11,8 @@ import { Image } from "./Image"
 // カスタムHookを取得
 import { useImageGet } from "../hook/useImageGet"
 
-// グローバルStateを取得
-import { useContext } from "react"
-import { TodoListContext } from "./providers/TodoListProvider"
-
 export const TopPage = () => {
-  const { incompleteTodos } = useContext(TodoListContext)
-  console.log(incompleteTodos)
-
+  
   const { useImage, imageFetch } = useImageGet()
 
   // Todoページマウント時のみ関数imageFetch()を実施
@@ -26,10 +20,6 @@ export const TopPage = () => {
     imageFetch()
   }, [])
 
-  // 関数imageFetch()を実施時、変数useImageが更新され、コンソール表示
-  useEffect(() => {
-    console.log(useImage)
-  }, [useImage])
 
   const topStyle = css`
     display: flex;

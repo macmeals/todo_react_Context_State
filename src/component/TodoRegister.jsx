@@ -44,9 +44,6 @@ export const TodoRegister = () => {
   //  初期値Todoの終了日のvalueを空にセット、状態を格納する変数setEndDateをセット
   const [endDate, setEndDate] = useState(undefined)
 
-  // 初期値incompTodosにオブジェクト型の空配列をセット、状態をsetIncompleteTodosに格納する
-  // const [incompleteTodos, setIncompleteTodos] = useState([])
-
   // グローバルStateの変数 incompleteTodos,関数setIncompleteTodosをuseContext利用で取り出す。
   const { incompleteTodos, setIncompleteTodos } = useContext(TodoListContext)
   console.log(incompleteTodos)
@@ -130,10 +127,6 @@ export const TodoRegister = () => {
       {/* Buttonコンポーネントにアロー関数で関数onAddTodoをPropsで渡す。 */}
       <Button onClickEvent={() => onAddTodo()}>登録</Button>
       <Toaster />
-      {/* LinkTextコンポーネントを呼び出す。destinationにリンク先、linkNameにリンク名、格納した配列をlinkStateにPropで渡す */}
-      {/* <LinkText destination={"/todolist"} linkState={incompleteTodos}>
-        Todo一覧へ
-      </LinkText> */}
       <LinkText destination={"/todolist"}>Todo一覧へ</LinkText>
     </div>
   )
