@@ -10,7 +10,7 @@ export const TodoListProvider = (props) => {
   const { children } = props
 
   return (
-    //valueに渡したい値を渡す。
+    //valueに渡したい値を渡す。ここではuseStateの変数incompleteTodosと更新関数setIncompleteTodosを渡す
     <TodoListContext.Provider value={{ incompleteTodos, setIncompleteTodos }}>
       {children}
     </TodoListContext.Provider>
