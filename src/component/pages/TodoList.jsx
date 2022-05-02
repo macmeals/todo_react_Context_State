@@ -3,17 +3,17 @@
 
 import { css } from "@emotion/react"
 import styled from "@emotion/styled"
-import { LinkText } from "./LinkText"
-import { Button } from "./Button"
+import { LinkText } from "../LinkText"
+import { Button } from "../Button"
 import { useCallback } from "react"
 import { useEffect } from "react"
 
 // カスタムHook（JSONPlaceHolder用の）
-import { useTextGet } from "../hook/useTextGet"
+import { useTextGet } from "../../hook/useTextGet"
 
 // グローバルStateを取得
 import { useContext } from "react"
-import { TodoListContext } from "./providers/TodoListProvider"
+import { TodoListContext } from "../providers/TodoListProvider"
 
 export const TodoList = () => {
   const todoStyle = css`
