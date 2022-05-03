@@ -48,8 +48,8 @@ export const TodoRegister = () => {
   const { incompleteTodos, setIncompleteTodos } = useContext(TodoListContext)
   console.log(incompleteTodos)
 
-  // カスタムHookから変数useImage,関数imageFetchを取得
-  const { useImage, imageFetch } = useImageGet()
+  // カスタムHookから変数apiPokemonBack,,関数imageFetchを取得
+  const { apiPokemonBack, imageFetch } = useImageGet()
 
   // Todoページマウント時のみ関数imageFetch()を実施
   useEffect(() => {
@@ -96,7 +96,7 @@ export const TodoRegister = () => {
     <div css={registerStyle}>
       <h2>Todo登録</h2>
       {/* ピカチュウの画像をImageコンポーネントで呼び出す */}
-      <Image url={useImage.data.sprites.back_female} />
+      <Image url={apiPokemonBack} />
       <div css={matrixStyle}>
         <div css={registerStyle}>
           <p>１．Todo開始日</p>
