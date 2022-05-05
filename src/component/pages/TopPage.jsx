@@ -12,7 +12,6 @@ import { Image } from "../Image"
 import { useImageGet } from "../../hook/useImageGet"
 
 export const TopPage = () => {
-  // const { useImage, imageFetch } = useImageGet()
   const { apiPokemonfront, imageFetch } = useImageGet()
 
   // Todoページマウント時のみ関数imageFetch()を実施
@@ -33,10 +32,7 @@ export const TopPage = () => {
         <h1>Todoアプリ</h1>
         <Link to="/todoregister">Todo登録</Link>
         <DayPicker />
-        {/* <Image url={useImage.data.sprites.front_default} /> */}
-
-        {/* 以下でも問題なし */}
-        {/* <Image url={useImage?.data.sprites.front_default ?? ""} /> */}
+        {/* カスタムHookで取得したURLを格納した変数apiPokemonfrontを読み込む */}
         <Image url={apiPokemonfront} />
       </div>
     </div>

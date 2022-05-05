@@ -5,11 +5,12 @@ import { css } from "@emotion/react"
 import styled from "@emotion/styled"
 import { LinkText } from "../LinkText"
 import { Button } from "../Button"
-import { useCallback } from "react"
 import { useEffect } from "react"
 
-// カスタムHook（JSONPlaceHolder用の）
+// カスタムHook（JSONPlaceHolder用の読み込み機能、Todo更新機能、Todo削除機能）
 import { useTextGet } from "../../hook/useTextGet"
+import { useDeleteTodo } from "../../hook/useDeleteTodo"
+import { useCompleteTodo } from "../../hook/useCompleteTodo"
 
 // グローバルStateを取得
 import { useContext } from "react"
@@ -56,31 +57,14 @@ export const TodoList = () => {
     }
   `
 
-  // グローバルStateの変数 incompleteTodos、setIncompleteTodosをuseContext利用で取り出す。
-  const { incompleteTodos, setIncompleteTodos } = useContext(TodoListContext)
-
-  // todoリストを削除する関数onDeleteTodoを定義
-  const onDeleteTodo = useCallback(
-    (index) => {
-      const deleteTodos = [...incompleteTodos] // 削除する対象のデータ配列を関数deleteTodoに格納
-      deleteTodos.splice(index, 1) // index番号から１番目の要素を削除
-      setIncompleteTodos(deleteTodos) // グローバルStateにdeleteTodosを格納
-    },
-    [incompleteTodos] // 第二引数にグローバルStateにdeleteTodosを格納
-  )
-
-  // todoリストを完了（completeFlagをTrueにする）関数onCompleteTodoを定義
-  const onCompleteTodo = useCallback(
-    (index) => {
-      const CompleteTodos = [...incompleteTodos] // グローバルStateを関数CompTodosTodoに格納
-      CompleteTodos[index].completeFlag = true //対象のデータ配列のCompleteFlagをTrueにする
-      setIncompleteTodos(CompleteTodos) // グローバルStateにCompleteTodosを格納
-    },
-    [incompleteTodos] // 第二引数にグローバルStateにdeleteTodosを格納
-  )
+  const { incompleteTodos } = useContext(TodoListContext)
 
   // カスタムHookから変数useImage,関数imageFetchを取得
   const { apiJson, jsonFetch } = useTextGet()
+  // カスタムHookから関数deleteTodoを取得
+  const { deleteTodo } = useDeleteTodo()
+  // カスタムHookから関数completeTodoを取得
+  const { completeTodo } = useCompleteTodo()
 
   // TodoList.jsx時のみ関数jsonFetch()を実施
   useEffect(() => {
@@ -90,8 +74,7 @@ export const TodoList = () => {
   return (
     <div css={todoStyle}>
       <h2>Todo一覧</h2>
-      {/* useJsonがNullの時、ブランクを返し、値が入ればuseJson.data[1].titleを返す */}
-      {/* <p>{useJson?.data[1].title ?? ""}</p> */}
+      {/* カスタムHookで読み込んだJSONPlaceHolderのデータを格納した変数apiJson*/}
       <p>{apiJson}</p>
       <div css={todoTitleStyle}>
         <TodoTitles>
@@ -107,10 +90,10 @@ export const TodoList = () => {
               <p>{todos.from}</p>
               <p>{todos.end}</p>
               <p>{todos.todo}</p>
-              {/* Buttonコンポーネントにアロー関数で関数onDeleteTodo(index)をPropsで渡す。indexは引数 */}
-              <Button onClickEvent={() => onDeleteTodo(index)}>削除</Button>
-              {/* Buttonコンポーネントにアロー関数で関数onCompleteTodo(index)をPropsで渡す。indexは引数 */}
-              <Button onClickEvent={() => onCompleteTodo(index)}>完了</Button>
+              {/* Buttonコンポーネントにアロー関数でカスタムHookで読み込んだ関数deleteTodoを渡す。indexは引数 */}
+              <Button onClickEvent={() => deleteTodo(index)}>削除</Button>
+              {/* Buttonコンポーネントにアロー関数でカスタムHookで読み込んだ関数completeTodoを渡す。indexは引数 */}
+              <Button onClickEvent={() => completeTodo(index)}>完了</Button>
             </StyledList>
           )
         })}
