@@ -60,7 +60,7 @@ export const TodoList = () => {
   const { incompleteTodos } = useContext(TodoListContext)
 
   // カスタムHookから変数useImage,関数imageFetchを取得
-  const { apiJson, jsonFetch } = useTextGet()
+  const { textTitle, jsonFetch } = useTextGet()
   // カスタムHookから関数deleteTodoを取得
   const { deleteTodo } = useDeleteTodo()
   // カスタムHookから関数completeTodoを取得
@@ -75,7 +75,7 @@ export const TodoList = () => {
     <div css={todoStyle}>
       <h2>Todo一覧</h2>
       {/* カスタムHookで読み込んだJSONPlaceHolderのデータを格納した変数apiJson*/}
-      <p>{apiJson}</p>
+      <p>{textTitle}</p>
       <div css={todoTitleStyle}>
         <TodoTitles>
           <p>Todo開始日</p>
