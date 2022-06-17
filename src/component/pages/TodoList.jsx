@@ -56,7 +56,7 @@ export const TodoList = () => {
       width: 20vw;
     }
   `
-
+  // グローバルStateからincompleteTodos（登録したTodo）を取得する
   const { incompleteTodos } = useContext(TodoListContext)
 
   // カスタムHookから変数useImage,関数imageFetchを取得
@@ -66,7 +66,7 @@ export const TodoList = () => {
   // カスタムHookから関数completeTodoを取得
   const { completeTodo } = useCompleteTodo()
 
-  // TodoList.jsx時のみ関数jsonFetch()を実施
+  // TodoList.jsxの初回レンダリング時のみ関数jsonFetch()を実施
   useEffect(() => {
     jsonFetch()
   }, [])
